@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buổi 06 — Đăng ký người dùng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b0f1a;
+      --surface: #111827;
+      --border: #1e2d42;
+      --accent: #00e5a0;
+      --accent-dim: rgba(0,229,160,0.12);
+      --accent-glow: rgba(0,229,160,0.25);
+      --text: #e8edf5;
+      --muted: #5a7394;
+      --error: #ff6b6b;
+      --error-dim: rgba(255,107,107,0.1);
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 60% 40% at 70% 20%, rgba(0,229,160,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 20% 80%, rgba(0,150,255,0.05) 0%, transparent 60%);
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+    }
+    .logo span { color: var(--text); }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-title {
+      font-size: 13px;
+      font-family: var(--mono);
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 40px;
+      color: var(--text);
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: rgba(0,229,160,0.3); }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .badge-get {
+      background: rgba(0,229,160,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(0,229,160,0.3);
+    }
+    .badge-post {
+      background: rgba(99,179,255,0.1);
+      color: #63b3ff;
+      border: 1px solid rgba(99,179,255,0.3);
+    }
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.8;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    /* ── Form fields ── */
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: var(--sans);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .field input::placeholder { color: var(--muted); opacity: 0.7; }
+    .field input:focus {
+      border-color: var(--accent);
+      background: rgba(0,229,160,0.04);
+    }
+
+    /* ── Button ── */
+    .btn {
+      width: 100%;
+      margin-top: 6px;
+      padding: 11px 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      background: var(--accent);
+      color: #0b0f1a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      background: #00fdb0;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn.loading { opacity: 0.7; pointer-events: none; }
+
+    .btn-post {
+      background: #63b3ff;
+      color: #0b0f1a;
+    }
+    .btn-post:hover {
+      background: #85c8ff;
+      box-shadow: 0 0 20px rgba(99,179,255,0.3);
+    }
+
+    /* ── Result box ── */
+    .result {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.8;
+      min-height: 56px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      white-space: pre-wrap;
+      transition: all 0.2s;
+    }
+    .result.ok {
+      border-color: rgba(0,229,160,0.4);
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .result.err {
+      border-color: rgba(255,107,107,0.4);
+      background: var(--error-dim);
+      color: var(--error);
+    }
+
+    /* ── Console ── */
+    .console-section {
+      margin-top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .console-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .console-header span {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .traffic-lights { display: flex; gap: 6px; }
+    .tl {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .tl-r { background: #ff5f57; }
+    .tl-y { background: #febc2e; }
+    .tl-g { background: var(--accent); }
+
+    .console-body {
+      padding: 16px 20px;
+      min-height: 80px;
+      max-height: 140px;
+      overflow-y: auto;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 2;
+    }
+    .log-entry { color: var(--accent); }
+    .log-entry .log-time { color: var(--muted); margin-right: 8px; }
+    .log-entry .log-method { font-weight: 500; margin-right: 4px; }
+    .log-entry .log-path { color: #63b3ff; }
+    .console-placeholder { color: var(--muted); font-style: italic; }
+
+    /* ── scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">API<span>Lab</span></div>
+  <div class="tag">Node.js · Express · Fetch API</div>
+</header>
+
+<main>
+  <p class="page-title">BUỔI 06 — BÀI TẬP THỰC HÀNH</p>
+  <h1>Xây dựng <em>server</em><br/>+ form đăng ký</h1>
+
+  <div class="grid">
+
+    <!-- FORM 1: GET /api/info -->
+    <div class="card">
+      <div class="card-badge badge-get"><div class="dot"></div> GET</div>
+      <h2>/api/info — Lấy thông tin</h2>
+
+      <div class="field">
+        <label>TÊN</label>
+        <input type="text" id="info-name" placeholder="Nhập tên của bạn..." />
+      </div>
+      <div class="field">
+        <label>TUỔI</label>
+        <input type="number" id="info-age" placeholder="Nhập tuổi..." min="0" />
+      </div>
+
+      <button class="btn" id="info-btn" onclick="handleInfo()">→ GỬI GET /api/info</button>
+      <div class="result" id="info-result">// Kết quả sẽ hiện ở đây...</div>
+    </div>
+
+    <!-- FORM 2: POST /api/register -->
+    <div class="card">
+      <div class="card-badge badge-post"><div class="dot"></div> POST</div>
+      <h2>/api/register — Đăng ký</h2>
+
+      <div class="field">
+        <label>TÊN</label>
+        <input type="text" id="reg-name" placeholder="Nhập tên của bạn..." />
+      </div>
+      <div class="field">
+        <label>TUỔI</label>
+        <input type="number" id="reg-age" placeholder="Nhập tuổi..." min="0" />
+      </div>
+      <div class="field">
+        <label>EMAIL</label>
+        <input type="email" id="reg-email" placeholder="example@email.com" />
+      </div>
+
+      <button class="btn btn-post" id="reg-btn" onclick="handleRegister()">→ GỬI POST /api/register</button>
+      <div class="result" id="reg-result">// Kết quả sẽ hiện ở đây...</div>
+    </div>
+
+  </div>
+
+  <!-- Console log -->
+  <div class="console-section">
+    <div class="console-header">
+      <div class="traffic-lights">
+        <div class="tl tl-r"></div>
+        <div class="tl tl-y"></div>
+        <div class="tl tl-g"></div>
+      </div>
+      <span>CONSOLE — Middleware Logger</span>
+    </div>
+    <div class="console-body" id="console-log">
+      <div class="console-placeholder">// Gửi request để xem log từ middleware...</div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const logs = [];
+
+  function addLog(method, path) {
+    const now = new Date();
+    const time = now.toTimeString().split(' ')[0]; // HH:MM:SS
+    logs.unshift({ time, method, path });
+    if (logs.length > 8) logs.pop();
+
+    const el = document.getElementById('console-log');
+    el.innerHTML = logs.map(l =>
+      `<div class="log-entry">
+        <span class="log-time">[${l.time}]</span>
+        <span class="log-method">${l.method}</span>
+        <span class="log-path">${l.path}</span>
+      </div>`
+    ).join('');
+  }
+
+  function showResult(elId, data, isOk) {
+    const el = document.getElementById(elId);
+    el.textContent = JSON.stringify(data, null, 2);
+    el.className = 'result ' + (isOk ? 'ok' : 'err');
+  }
+
+  // ── FORM 1: GET /api/info ──────────────────────────────────
+  async function handleInfo() {
+    const name = document.getElementById('info-name').value.trim();
+    const age  = document.getElementById('info-age').value.trim();
+    const btn  = document.getElementById('info-btn');
+
+    btn.classList.add('loading');
+    btn.textContent = '...';
+    addLog('GET', `/api/info?name=${encodeURIComponent(name)}&age=${age}`);
+
+    try {
+      const params = new URLSearchParams({ name, age });
+      const res = await fetch(`/api/info?${params}`);
+      const data = await res.json();
+      showResult('info-result', data, res.ok);
+    } catch (err) {
+      showResult('info-result', { error: 'Không kết nối được server.' }, false);
+    } finally {
+      btn.classList.remove('loading');
+      btn.textContent = '→ GỬI GET /api/info';
+    }
+  }
+
+  // ── FORM 2: POST /api/register ─────────────────────────────
+  async function handleRegister() {
+    const name  = document.getElementById('reg-name').value.trim();
+    const age   = document.getElementById('reg-age').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const btn   = document.getElementById('reg-btn');
+
+    btn.classList.add('loading');
+    btn.textContent = '...';
+    addLog('POST', '/api/register');
+
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, age, email }),
+      });
+      const data = await res.json();
+      showResult('reg-result', data, res.ok);
+    } catch (err) {
+      showResult('reg-result', { error: 'Không kết nối được server.' }, false);
+    } finally {
+      btn.classList.remove('loading');
+      btn.textContent = '→ GỬI POST /api/register';
+    }
+  }
+
+  // ── Cho phép nhấn Enter để submit ──────────────────────────
+  document.getElementById('info-age').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleInfo();
+  });
+  document.getElementById('reg-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleRegister();
+  });
+</script>
+</body>
+</html>
