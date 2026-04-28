@@ -1,0 +1,22 @@
+{
+  "name": "student-api",
+  "version": "1.0.0",
+  "description": "REST API quản lý sinh viên với Node.js, Express, MongoDB",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node scripts/seed.js"
+  },
+  "keywords": ["nodejs", "express", "mongodb", "rest-api"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
