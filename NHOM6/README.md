@@ -23,15 +23,10 @@ npm install
 
 ### 2. Cấu hình môi trường
 
-```bash
-cp .env.example .env
-```
-
-Chỉnh sửa file `.env`:
 
 ```env
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/student_db
+PORT=
+MONGODB_URI=
 ```
 
 ### 3. Chạy project
