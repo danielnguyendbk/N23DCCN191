@@ -1,0 +1,192 @@
+.card {
+  background: #0f1322;
+  border: 1px solid #1e2540;
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 520px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #818cf8, #a5b4fc);
+}
+
+.badge {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  background: #1e2540;
+  color: #818cf8;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 0.3rem;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 2rem;
+}
+
+.field {
+  margin-bottom: 1.4rem;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.field input {
+  width: 100%;
+  background: #0a0d1a;
+  border: 1.5px solid #1e2540;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: #e2e8f0;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+
+.field input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.inputError {
+  border-color: #ef4444 !important;
+}
+
+.errMsg {
+  display: block;
+  font-size: 12px;
+  color: #f87171;
+  margin-top: 0.4rem;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* Password strength */
+.strengthWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.strengthBar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #1e2540;
+  overflow: hidden;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s, background 0.3s;
+}
+
+.strengthLabel {
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 60px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* Password requirements */
+.pwReqs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.req {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #1e2540;
+  color: #475569;
+  font-family: "JetBrains Mono", monospace;
+  transition: background 0.2s, color 0.2s;
+}
+
+.reqMet {
+  background: #052e16;
+  color: #4ade80;
+}
+
+/* Submit button */
+.submitBtn {
+  width: 100%;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, opacity 0.2s;
+  margin-top: 0.5rem;
+  font-family: inherit;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: #4f46e5;
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Server message */
+.serverMsg {
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-size: 13px;
+  margin-top: 1rem;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.success {
+  background: #052e16;
+  color: #4ade80;
+  border: 1px solid #166534;
+}
+
+.fail {
+  background: #450a0a;
+  color: #f87171;
+  border: 1px solid #991b1b;
+}
